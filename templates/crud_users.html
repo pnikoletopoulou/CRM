@@ -1,0 +1,126 @@
+{% extends "base_admin.html" %}
+
+{% block title %}CRUD Users{% endblock %}
+
+{% block content %}
+
+<style>
+    .table-t thead th {
+
+        background-color: #FCFDE0;
+        color: #D2427E;
+    }
+
+    .table-t tbody td {
+
+        background-color: #FCFDE0;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow " style="background-color: #FCFDE0;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-people"></i>CRUD Users
+                </h2>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ url_for('add_user') }}" class="btn btn-primary" style="color: #050505; 
+                background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                        <i class="bi bi-plus-circle"></i>Create User
+                    </a>
+                </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-t mt-3">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Edit User</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.firstname }}</td>
+                                    <td>{{ user.lastname }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.tel }}</td>
+                                    <td>{{ user.address }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end mb-3">
+                                            <a href="{{ url_for('edit_user',  id=user.id) }}" class="btn btn-primary"
+                                                style="color: #050505; 
+                                         background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                                               <i class="bi bi-pencil"></i>
+                                            </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn user-status-button" data-id="{{ user.id }}"
+                                            data-current-status="{{ 'Active' if user.is_active else 'Disabled' }}"
+                                            style="border: none; padding: 6px 12px;">
+                                            {{ 'Active' if user.is_active else 'Disabled' }}
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const statusColors = {
+
+        'Disabled': '#DF0404',
+        'Active': '#04C82F'
+    };
+
+    document.querySelectorAll('.user-status-button').forEach(button => {
+        const status = button.dataset.currentStatus;
+        button.style.backgroundColor = statusColors[status];
+        button.style.color = '#000000'
+    });
+
+    document.querySelectorAll('.user-status-button').forEach(button => {
+        button.addEventListener('click', async () => {
+            const id = button.dataset.id;
+            const currentStatus = button.dataset.currentStatus;
+
+            const nextStatus = currentStatus === 'Active' ? 'Disabled' : 'Active';
+
+            const response = await fetch('/disable_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: id,
+                    status: nextStatus
+                })
+            });
+
+            if (response.ok) {
+                button.textContent = nextStatus;
+                button.dataset.currentStatus = nextStatus;
+                button.style.backgroundColor = userStatusColors[nextStatus];
+            } else {
+                alert('Failed to update user status');
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}

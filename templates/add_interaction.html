@@ -1,0 +1,58 @@
+{% extends "base_employee.html" %}
+
+{% block title %}Add Interaction{% endblock %}
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow " style="background-color: #FCFDE0 ;">
+
+
+            <button type="button" class="btn-close" aria-label="Close"
+                style="color:black; position:absolute; top: 10px; right: 10px;" aria-label="Close"
+                onclick="closeForm()">
+            </button>
+
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    Add Interaction
+                </h2>
+
+                <form method="POST">
+                    <input type="hidden" name="c_id" value="{{ customer.c_id }}">
+
+                    <div class="mb-3">
+                        <label for="interaction" class="form-label">Interaction</label>
+                        <input type="text"  name="notes" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Interaction Type</label>
+                        <input type="text" name="type" placeholder="phone, email, SMS" required />
+                    </div>
+                
+                     <div class="mb-3">
+                        <label for="" class="form-check">No Response</label>
+                        <input type="checkbox" name="customer_responded"/>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #F7D6E4; border-color: black;">
+                            <i class="bi bi-box-arrow-in-right"></i> Add Interaction
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeForm() {
+        window.location.href = "{{ url_for('customers') }}";
+    }
+</script>
+
+
+
+{% endblock %}

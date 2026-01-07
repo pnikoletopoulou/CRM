@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+   <div class="col-md-6 col-lg-4">
+      <div class="card shadow " style="background-color: #FCFDE0 ;">
+         <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4">
+               Login to Your Account
+            </h2>
+
+            <form method="POST">
+               <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" name="username" value="{{username }}" required />
+               </div>
+               <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" name="password" required />
+               </div>
+               <input type="checkbox" name="rememberme" /> Remember me <br>
+
+               <div class="d-grid">
+                  <button type="submit" class="btn btn-primary" style="background-color: #F7D6E4; border-color: black;">
+                     <i class="bi bi-box-arrow-in-right"></i> Login
+                  </button>
+               </div>
+
+               <div class="text-center mt-3">
+                  <p class="mb-0">Don't have an account?
+                     <a href="{{ url_for('register') }}" class="text-decoration-none", style="color: #F7D6E4;">Register here</a>
+                  </p>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+{% endblock %}

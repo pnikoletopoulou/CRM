@@ -1,0 +1,38 @@
+{% extends "base_employee.html" %}
+
+{% block title %}Employee{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5 text-center">
+    <h1 style="color: white;">Welcome!</h1>
+</div>
+<br>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary py-2 px-3 fs-5"
+        style="background-color: #FCFDE0; color: #BC2262; border-color: black;">
+        Dashboard
+    </a>
+</div>
+<br>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a href="{{ url_for('customers') }}" class="btn btn-primary py-2 px-3 fs-5"
+        style="background-color: #FCFDE0; color: #BC2262; border-color: black;">
+        Customers
+    </a>
+</div>
+<br>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a href="{{ url_for('profile') }}" class="btn btn-primary py-2 px-3 fs-5"
+        style="background-color: #FCFDE0; color: #BC2262; border-color: black;">
+        Profile
+    </a>
+</div>
+<br>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a href="{{ url_for('logout') }}" class="btn btn-primary py-2 px-3 fs-5"
+        style="background-color: #FCFDE0; color: #BC2262; border-color: black;">
+        Logout
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow " style="background-color: #FCFDE0;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    Edit User {{ user.username }}
+                </h2>
+
+            <button type="button" class="btn-close" aria-label="Close"
+                style="color:black; position:absolute; top: 10px; right: 10px;"
+                onclick="closeForm()">
+            </button>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>Username</label>
+                        <input class="form-control" name="username" value="{{ user.username }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>First Name</label>
+                        <input class="form-control" name="firstname" value="{{ user.firstname }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Last Name</label>
+                        <input class="form-control" name="lastname" value="{{ user.lastname }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input class="form-control" name="email" value="{{ user.email }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Phone</label>
+                        <input class="form-control" name="tel" value="{{ user.tel }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Address</label>
+                        <input class="form-control" name="address" value="{{ user.address }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Role</label>
+                        <select name="role" class="form-control">
+                            <option value="employee" {% if user and user.role=='employee' %}selected{% endif %}>Employee
+                            </option>
+                            <option value="manager" {% if user and user.role=='manager' %}selected{% endif %}>Manager
+                            </option>
+                             <option value="manager" {% if user and user.role=='manager' %}selected{% endif %}>Manager
+                            </option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #F7D6E4; border-color: black;">
+                            <i class="bi bi-box-arrow-in-right"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function closeForm() {
+            window.location.href = "{{ url_for('crud_users') }}";
+    }
+</script>
+
+{% endblock %}

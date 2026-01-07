@@ -1,0 +1,151 @@
+{% extends "base_employee.html" %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+
+<style>
+    .table-t thead th {
+
+        background-color: #FCFDE0;
+        color: #D2427E;
+    }
+
+    .table-t tbody td {
+
+        background-color: #FCFDE0;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow " style="background-color: #FCFDE0;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-people"></i>Customers
+                </h2>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ url_for('add_customer') }}" class="btn btn-primary" style="color: #050505; 
+                background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                     <i class="bi bi-plus-circle"></i> Add Customer
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-t mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                                <th>Comments</th>
+                                <th>Interactions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customers %}
+                            <tr>
+                                <td>{{ customer.c_id }}</td>
+                                <td>{{ customer.first_name }}</td>
+                                <td>{{ customer.last_name }}</td>
+                                <td>{{ customer.email }}</td>
+                                <td>{{ customer.tel }}</td>
+                                <td>{{ customer.company }}</td>
+                                <td>{{ customer.country }}</td>
+                                <td>
+                                    <button class="status-btn btn btn-sm" data-c_id="{{ customer.c_id }}"
+                                        data-current-status="{{ customer.status }}">
+                                        {{ customer.status }}
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <a href="{{ url_for('add_comment', c_id=customer.c_id) }}"
+                                            class="btn btn-primary" style="color: #050505; 
+                                         background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                                            <i class="bi bi-plus-circle"></i>
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <a href="{{ url_for('comments',  c_id=customer.c_id) }}" class="btn btn-primary"
+                                            style="color: #050505; 
+                                         background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                                            <i class="bi bi-chat-dots"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <a href="{{ url_for('add_interaction',  c_id=customer.c_id) }}"
+                                            class="btn btn-primary" style="color: #050505; 
+                                         background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                                            <i class="bi bi-plus-circle"></i>
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-center mb-3">
+                                        <a href="{{ url_for('interactions',  c_id=customer.c_id) }}"
+                                            class="btn btn-primary" style="color: #050505; 
+                                         background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                                         <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const statusColors = {
+
+        'Active': '#008767',
+        'Inactive': '#FF8839',
+        'Lead': '#7E7E7E',
+        'Cancelled': '#DF0404'
+    };
+
+    document.querySelectorAll('.status-btn').forEach(button => {
+        const status = button.dataset.currentStatus;
+        button.style.backgroundColor = statusColors[status];
+        button.style.color = '#FDFDFD';
+    });
+
+    document.querySelectorAll('.status-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const c_id = button.dataset.c_id;
+            let currentStatus = button.dataset.currentStatus;
+
+            const statuses = ['Active', 'Inactive', 'Lead', 'Cancelled'];
+
+            const nextStatus = statuses[(statuses.indexOf(currentStatus) + 1) % statuses.length];
+            const response = await fetch('/update_status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: c_id, status: nextStatus })
+            });
+
+            if (response.ok) {
+
+                button.textContent = nextStatus;
+                button.dataset.currentStatus = nextStatus;
+                button.style.backgroundColor = statusColors[nextStatus];
+            }
+            else {
+
+                alert('Failed to update status!');
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends base_template %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow " style="background-color: #FCFDE0;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                   <i class="bi bi-person"></i> Profile
+                </h2>
+                <p>Username: {{ user.username }}</p>
+                <p>First Name: {{ user.firstname }}</p>
+                <p>Last Name: {{ user.lastname }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>Phone: {{ user.tel }}</p>
+                <p>Address: {{ user.address }}</p>
+                <p>Role: {{ user.role }}</p>
+                <p>Member since: {{ user.created_at }}</p>
+
+                <div class="d-flex gap-2 mt-3">
+                    <div class="d-flex justify-content-end mb-3">
+                        <a href="{{ url_for('edit_profile') }}" class="btn btn-primary" style="color: #050505; 
+                background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                           <i class="bi bi-pencil"></i>Edit Profile
+                        </a>
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ url_for('change_password') }}" class="btn btn-primary" style="color: #050505; 
+                background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">
+                            <i class="bi bi-pencil"></i>Change Password
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% endblock %}

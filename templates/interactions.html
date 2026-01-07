@@ -1,0 +1,66 @@
+{% extends "base_employee.html" %}
+
+{% block title %}Interactions{% endblock %}
+
+{% block content %}
+
+<style>
+    .table-t thead th {
+
+        background-color: #FCFDE0;
+        color: #D2427E;
+    }
+
+    .table-t tbody td {
+
+        background-color: #FCFDE0;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow" style="background-color: #FCFDE0;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    Interactions for Customer {{ c_id }}
+                </h2>
+
+                <div class="table-responsive">
+                    <table class="table table-t mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Interaction</th>
+                                <th>Interaction Type</th>
+                                <th>User ID</th>
+                                <th>No Response</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for interaction in interactions %}
+                            <tr>
+                                <td>{{ interaction.interaction_id }}</td>
+                                <td>{{ interaction.notes }}</td>
+                                <td>{{ interaction.type}}</td>
+                                <td>{{ interaction.user_id }}</td>
+                                <td>{{ 'Yes' if interaction.customer_responded else 'No' }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No interactions yet</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <a href="{{ url_for('customers') }}" class="btn btn-secondary" style="background-color: #FCFDE0; color: #D2427E; border-color: #FCFDE0;">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
